@@ -1,0 +1,58 @@
+.routes-page {
+  background: #1a1a2e;
+  min-height: 100vh;
+  padding: 100px 0;
+  color: white;
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 60px !important;
+  background: linear-gradient(45deg, #fff, #7c5dfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.route-card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px !important;
+  transition: transform 0.3s ease;
+  height: 100%;
+}
+
+.route-card:hover {
+  transform: translateY(-10px);
+}
+
+.route-title {
+  color: white !important;
+  margin-bottom: 15px !important;
+}
+
+.route-price {
+  color: #7c5dfa !important;
+  margin-bottom: 20px !important;
+}
+
+.book-route-btn {
+  background: linear-gradient(45deg, #7c5dfa, #5c3af0) !important;
+  width: 100%;
+  padding: 12px !important;
+  border-radius: 10px !important;
+  text-transform: none !important;
+}
+
+.book-route-btn:hover {
+  background: linear-gradient(45deg, #6c4fe0, #4c2ad0) !important;
+}
+
+@media (max-width: 768px) {
+  .routes-page {
+    padding: 60px 0;
+  }
+  
+  .page-title {
+    font-size: 2.5rem !important;
+  }
+} 

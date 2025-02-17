@@ -1,0 +1,171 @@
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+  padding: 2rem 0;
+}
+
+.login-paper {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px !important;
+  padding: 2rem;
+}
+
+.login-box {
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.login-title {
+  color: white;
+  text-align: center;
+  font-weight: 600 !important;
+  margin-bottom: 0.5rem !important;
+  background: linear-gradient(45deg, #fff, #7c5dfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.login-subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  margin-bottom: 1rem !important;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.login-form .MuiTextField-root {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.login-form .MuiOutlinedInput-root {
+  color: white;
+}
+
+.login-form .MuiInputLabel-root {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.login-form .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.input-icon {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.login-button {
+  position: relative;
+  min-height: 48px;
+  background: linear-gradient(45deg, #7c5dfa, #5c3af0) !important;
+  padding: 12px !important;
+  border-radius: 10px !important;
+  text-transform: none !important;
+  font-size: 1.1rem !important;
+  margin-top: 1rem !important;
+}
+
+.login-button .MuiCircularProgress-root {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -12px;
+  margin-left: -12px;
+}
+
+.login-button:disabled {
+  background: rgba(124, 93, 250, 0.5) !important;
+}
+
+.forgot-password {
+  color: #7c5dfa;
+  text-decoration: none;
+  text-align: right;
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+  color: #5c3af0;
+}
+
+.divider {
+  margin: 2rem 0 !important;
+}
+
+.divider .MuiDivider-wrapper {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.social-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.google-button,
+.facebook-button {
+  flex: 1;
+  color: white !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  text-transform: none !important;
+  padding: 8px !important;
+}
+
+.google-button:hover,
+.facebook-button:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.signup-prompt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.signup-prompt Typography {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.signup-link {
+  color: #7c5dfa;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.signup-link:hover {
+  color: #5c3af0;
+}
+
+.login-alert {
+  margin-bottom: 1rem !important;
+}
+
+@media (max-width: 600px) {
+  .login-box {
+    padding: 2rem 1.5rem;
+  }
+
+  .social-buttons {
+    flex-direction: column;
+  }
+
+  .login-title {
+    font-size: 2rem !important;
+  }
+} 

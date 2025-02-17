@@ -1,0 +1,921 @@
+.dashboard-container {
+  padding: 1.5rem 2rem;
+  max-width: 1600px !important;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #f8f9ff 0%, #f3f4f8 100%);
+  min-height: calc(100vh - 64px); /* Adjust for navbar height */
+  padding-left: 1rem !important; /* Space for menu button */
+  transition: all 0.3s ease;
+}
+
+.welcome-section {
+  margin-bottom: 2rem;
+  background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+  padding: 2rem;
+  border-radius: 1rem;
+  color: white;
+  box-shadow: 0 8px 32px rgba(13, 71, 161, 0.2);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.welcome-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    linear-gradient(45deg, rgba(25, 118, 210, 0.1) 0%, rgba(21, 101, 192, 0.1) 100%);
+  pointer-events: none;
+}
+
+.welcome-text {
+  font-size: 2rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 0.75rem !important;
+  color: white !important;
+  position: relative;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  letter-spacing: -0.5px;
+  line-height: 1.2 !important;
+}
+
+.welcome-section .MuiTypography-subtitle1 {
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  position: relative;
+  margin-top: 0.5rem !important;
+}
+
+.dashboard-card {
+  height: 100%;
+  border-radius: 1.5rem !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  padding: 1.5rem !important;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-icon {
+  font-size: 2rem !important;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  border-radius: 1rem;
+  width: fit-content;
+}
+
+.book-icon {
+  color: #3498db !important;
+  background: rgba(52, 152, 219, 0.1);
+}
+
+.active-icon {
+  color: #2ecc71 !important;
+  background: rgba(46, 204, 113, 0.1);
+}
+
+.history-icon {
+  color: #e74c3c !important;
+  background: rgba(231, 76, 60, 0.1);
+}
+
+.profile-icon {
+  color: #9b59b6 !important;
+  background: rgba(155, 89, 182, 0.1);
+}
+
+.card-title {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.75rem !important;
+  color: #2c3e50;
+}
+
+.stats-number {
+  font-size: 1.75rem !important;
+  font-weight: 700 !important;
+  background: linear-gradient(45deg, #3498db, #2ecc71);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 1rem 0 !important;
+}
+
+.action-button {
+  width: 100%;
+  margin-top: 1rem !important;
+  text-transform: none !important;
+  padding: 0.75rem !important;
+  border-radius: 0.75rem !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+}
+
+.active-button {
+  background: linear-gradient(45deg, #2ecc71, #27ae60) !important;
+}
+
+.history-button {
+  background: linear-gradient(45deg, #e74c3c, #c0392b) !important;
+}
+
+.profile-button {
+  background: linear-gradient(45deg, #9b59b6, #8e44ad) !important;
+}
+
+.bookings-card {
+  margin-top: 2rem;
+  background: white !important;
+  border-radius: 1.5rem !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+  border: 1px solid rgba(124, 93, 250, 0.1);
+}
+
+.section-title {
+  font-weight: 700 !important;
+  margin-bottom: 1.5rem !important;
+  color: #1a1a2e;
+  font-size: 1.25rem !important;
+  padding: 1.5rem 1.5rem 0 1.5rem !important;
+}
+
+.booking-item {
+  margin: 0 1.5rem 1rem 1.5rem;
+  border-radius: 1rem !important;
+  background: #f8f9ff !important;
+  border: 1px solid rgba(124, 93, 250, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.booking-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(124, 93, 250, 0.1);
+}
+
+.booking-item:last-child {
+  margin-bottom: 1.5rem;
+}
+
+.booking-item .MuiCardContent-root {
+  padding: 1.5rem !important;
+}
+
+.booking-item .MuiChip-root {
+  font-weight: 600;
+  padding: 1rem 0.75rem;
+  height: auto;
+  border-radius: 0.75rem;
+}
+
+.booking-item .MuiButton-root {
+  border-radius: 0.75rem;
+  padding: 0.5rem 1.5rem;
+  font-weight: 600;
+  text-transform: none;
+}
+
+.booking-item .MuiSvgIcon-root {
+  margin-right: 0.75rem;
+  color: #7c5dfa;
+}
+
+/* Larger Screen Sizes */
+@media (min-width: 1920px) {
+  .dashboard-container {
+    max-width: 1800px !important;
+    padding: 2rem 4rem;
+  }
+
+  .dashboard-header {
+    padding: 1.5rem 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .header-icon {
+    padding: 1rem;
+    font-size: 1.75rem !important;
+  }
+
+  .logout-button {
+    padding: 1rem 2.5rem !important;
+    font-size: 1.25rem !important;
+  }
+
+  .welcome-section {
+    padding: 4rem 5rem;
+  }
+
+  .welcome-text {
+    font-size: 3.5rem !important;
+  }
+
+  .welcome-section .MuiTypography-subtitle1 {
+    font-size: 1.5rem !important;
+  }
+
+  .card-icon {
+    font-size: 3.5rem !important;
+    padding: 1.5rem;
+  }
+
+  .card-title {
+    font-size: 2rem !important;
+  }
+
+  .stats-number {
+    font-size: 3rem !important;
+  }
+
+  .action-button {
+    padding: 1.25rem !important;
+    font-size: 1.5rem !important;
+  }
+}
+
+/* Large Screens */
+@media (min-width: 1440px) and (max-width: 1919px) {
+  .dashboard-container {
+    max-width: 1400px !important;
+    padding: 2rem 3rem;
+  }
+
+  .dashboard-header {
+    padding: 1.25rem 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .header-icon {
+    padding: 0.875rem;
+    font-size: 1.5rem !important;
+  }
+
+  .welcome-section {
+    padding: 2.5rem 3rem;
+  }
+
+  .welcome-text {
+    font-size: 2.25rem !important;
+  }
+
+  .card-icon {
+    font-size: 2.25rem !important;
+    padding: 1.125rem;
+  }
+
+  .card-title {
+    font-size: 1.5rem !important;
+  }
+
+  .stats-number {
+    font-size: 2rem !important;
+  }
+}
+
+/* Medium Screens */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .dashboard-container {
+    padding: 1.5rem 2.5rem;
+  }
+
+  .dashboard-header {
+    padding: 1rem 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .welcome-section {
+    padding: 3rem;
+  }
+
+  .welcome-text {
+    font-size: 2.5rem !important;
+  }
+
+  .card-icon {
+    font-size: 2.75rem !important;
+    padding: 1.125rem;
+  }
+
+  .card-title {
+    font-size: 1.5rem !important;
+  }
+
+  .stats-number {
+    font-size: 2.25rem !important;
+  }
+}
+
+/* Tablet Screens */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .dashboard-container {
+    padding: 1.5rem;
+  }
+
+  .dashboard-header {
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .header-icon {
+    padding: 0.75rem;
+    font-size: 1.25rem !important;
+  }
+
+  .logout-button {
+    padding: 0.75rem 1.5rem !important;
+  }
+
+  .welcome-section {
+    padding: 2.5rem;
+  }
+
+  .welcome-text {
+    font-size: 2rem !important;
+  }
+
+  .card-icon {
+    font-size: 2.25rem !important;
+    padding: 1rem;
+  }
+
+  .card-title {
+    font-size: 1.125rem !important;
+  }
+
+  .stats-number {
+    font-size: 1.75rem !important;
+    margin: 1rem 0 !important;
+  }
+
+  .action-button {
+    padding: 0.875rem !important;
+    font-size: 1.125rem !important;
+  }
+
+  .booking-item .MuiGrid-container {
+    gap: 1rem;
+  }
+
+  .booking-item .MuiCardContent-root {
+    padding: 1rem !important;
+  }
+
+  .stat-card {
+    margin-bottom: 16px;
+  }
+  
+  .quick-actions-section,
+  .recent-activity-section {
+    padding: 16px;
+  }
+}
+
+/* Mobile Screens */
+@media (max-width: 767px) {
+  .dashboard-container {
+    padding: 1rem;
+  }
+
+  .dashboard-header {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .header-left {
+    width: 100%;
+  }
+
+  .logout-button {
+    width: 100%;
+    padding: 0.875rem !important;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .header-icon {
+    padding: 0.625rem;
+    font-size: 1.25rem !important;
+  }
+
+  .welcome-section {
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .welcome-text {
+    font-size: 1.75rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .welcome-section .MuiTypography-subtitle1 {
+    font-size: 1rem !important;
+  }
+
+  .dashboard-card {
+    padding: 1.5rem !important;
+  }
+
+  .card-icon {
+    font-size: 2rem !important;
+    padding: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-title {
+    font-size: 1.125rem !important;
+  }
+
+  .stats-number {
+    font-size: 1.75rem !important;
+    margin: 1rem 0 !important;
+  }
+
+  .action-button {
+    padding: 0.75rem !important;
+    font-size: 1rem !important;
+    margin-top: 1rem !important;
+  }
+
+  .booking-item .MuiGrid-container {
+    gap: 1rem;
+  }
+
+  .booking-item .MuiCardContent-root {
+    padding: 1rem !important;
+  }
+
+  .stat-card {
+    margin-bottom: 16px;
+  }
+  
+  .quick-actions-section,
+  .recent-activity-section {
+    padding: 16px;
+  }
+}
+
+.stat-card {
+  border-radius: 16px !important;
+  transition: all 0.3s ease !important;
+  height: 100%;
+}
+
+.stat-card:hover {
+  box-shadow: 0 8px 24px rgba(124, 93, 250, 0.15) !important;
+}
+
+.quick-actions-section {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 16px !important;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.recent-activity-section {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 16px !important;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.activity-item {
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.activity-item:hover {
+  background-color: rgba(124, 93, 250, 0.05);
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 1rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 1rem;
+  z-index: 1000;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.logout-button {
+  background: #e74c3c !important;
+  color: white !important;
+  padding: 0.5rem 1.5rem !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.logout-button:hover {
+  background: #c0392b !important;
+  transform: translateY(-2px);
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.header-actions .MuiTooltip-tooltip {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.notifications-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background: #e74c3c;
+  color: white;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%) !important;
+  color: #ffffff !important;
+}
+
+.dark-mode .dashboard-header {
+  background: rgba(26, 35, 126, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .welcome-section {
+  background: linear-gradient(135deg, #0d47a1 0%, #1565c0 100%);
+}
+
+.dark-mode .dashboard-card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .card-title {
+  color: #ffffff;
+}
+
+.dark-mode .section-paper {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .offer-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+}
+
+.dark-mode .offer-title {
+  color: #ffffff;
+}
+
+.dark-mode .header-icon {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.dark-mode .header-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Additional Header Improvements */
+.dashboard-header {
+  transition: all 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.header-actions .MuiTooltip-tooltip {
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.notifications-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background: #e74c3c;
+  color: white;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.section-paper {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.bookings-list {
+  margin-top: 1rem;
+}
+
+.booking-item {
+  margin-bottom: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.booking-item:hover {
+  transform: translateX(5px);
+}
+
+.offers-grid {
+  margin-top: 1rem;
+}
+
+.offer-card {
+  background: linear-gradient(135deg, #f6f9ff 0%, #f3f4f8 100%);
+  border-radius: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.offer-card:hover {
+  transform: translateY(-5px);
+}
+
+.offer-title {
+  color: #1a237e;
+  margin-bottom: 0.5rem;
+}
+
+.offer-code {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(26, 35, 126, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.quick-links {
+  margin-top: 2rem;
+}
+
+.quick-link-button {
+  padding: 1rem !important;
+  border-radius: 0.75rem !important;
+  text-transform: none !important;
+  font-weight: 600 !important;
+}
+
+.section-icon {
+  color: #1a237e;
+  font-size: 1.5rem !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .dashboard-header {
+    padding: 0.5rem;
+  }
+
+  .section-paper {
+    padding: 1rem;
+  }
+
+  .offer-code {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .quick-link-button {
+    padding: 0.75rem !important;
+    font-size: 0.875rem !important;
+  }
+}
+
+/* Dark Mode Header Adjustments */
+.dark-mode .dashboard-header {
+  background: rgba(26, 35, 126, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .header-icon {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.dark-mode .header-icon:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Header Styles */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 1rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 1rem;
+  z-index: 1000;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.logout-button {
+  background: #e74c3c !important;
+  color: white !important;
+  padding: 0.5rem 1.5rem !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.logout-button:hover {
+  background: #c0392b !important;
+  transform: translateY(-2px);
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .header-left {
+    width: 100%;
+  }
+
+  .logout-button {
+    width: 100%;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-around;
+  }
+}
+
+/* Add/update these dark mode styles in Dashboard.css */
+
+.dark-mode .dashboard-container {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #ffffff;
+}
+
+.dark-mode .dashboard-card {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.dark-mode .card-title {
+  color: #ffffff !important;
+}
+
+.dark-mode .card-icon {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .stats-number {
+  background: linear-gradient(45deg, #64b5f6, #81c784);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  color: transparent;
+}
+.dark-mode .section-paper {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .section-title,
+.dark-mode .section-header Typography {
+  color: #ffffff !important;
+}
+
+.dark-mode .booking-item {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .MuiTypography-colorTextSecondary {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.dark-mode .offer-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .offer-title {
+  color: #ffffff;
+}
+
+.dark-mode .quick-link-button {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .quick-link-button:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dark-mode .MuiDivider-root {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .action-button {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+.dark-mode .action-button:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+} 

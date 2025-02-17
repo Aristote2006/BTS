@@ -1,0 +1,282 @@
+.dashboard-layout {
+  background: linear-gradient(135deg, #f5f7ff 0%, #f0f2fc 100%);
+  min-height: 100vh;
+  display: flex;
+}
+
+.toolbar {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(124, 93, 250, 0.1);
+  padding: 0.5rem 1rem !important;
+  position: fixed;
+  width: 100%;
+  z-index: 1200;
+}
+
+.menu-button {
+  margin-right: 16px;
+  color: #7c5dfa !important;
+  display: none; /* Hidden by default, shown on mobile */
+}
+
+.app-title {
+  font-weight: 700 !important;
+  font-size: 1.5rem !important;
+  background: linear-gradient(45deg, #7c5dfa, #9277ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+}
+
+.toolbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.notification-icon {
+  background: rgba(124, 93, 250, 0.1);
+  margin-right: 8px !important;
+  padding: 8px !important;
+  border-radius: 12px !important;
+  transition: all 0.3s ease;
+}
+
+.notification-icon:hover {
+  background: rgba(124, 93, 250, 0.2);
+}
+
+.profile-button {
+  padding: 4px !important;
+  border: 2px solid rgba(124, 93, 250, 0.2);
+  transition: all 0.3s ease;
+}
+
+.profile-button:hover {
+  border-color: #7c5dfa;
+}
+
+.dashboard-drawer {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.dashboard-drawer .MuiDrawer-paper {
+  width: 280px;
+  background: #ffffff;
+  border-right: 1px solid rgba(124, 93, 250, 0.1);
+  padding: 1rem;
+  height: 100vh;
+  position: fixed;
+  transition: transform 0.3s ease-in-out !important;
+}
+
+.dashboard-drawer.closed .MuiDrawer-paper {
+  transform: translateX(-280px);
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 80px 24px 24px 304px; /* Adjusted padding for fixed sidebar */
+  transition: padding 0.3s ease-in-out;
+  width: calc(100% - 280px);
+}
+
+.main-content.drawer-closed {
+  padding-left: 24px;
+  width: 100%;
+}
+
+.drawer-header {
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+  margin: -1rem -1rem 1rem -1rem;
+  border-radius: 0 0 24px 24px;
+  padding: 2rem 1rem;
+}
+
+.user-avatar {
+  width: 80px !important;
+  height: 80px !important;
+  border: 3px solid #7c5dfa;
+  background: white !important;
+  font-size: 2rem !important;
+  color: #7c5dfa !important;
+}
+
+.user-info {
+  text-align: center;
+  color: white;
+}
+
+.user-info .MuiTypography-subtitle1 {
+  font-weight: 600 !important;
+  font-size: 1.1rem !important;
+  margin-bottom: 4px !important;
+}
+
+.user-info .MuiTypography-body2 {
+  opacity: 0.8;
+}
+
+.menu-list {
+  padding: 8px !important;
+}
+
+.menu-item {
+  border-radius: 12px !important;
+  margin-bottom: 8px !important;
+  padding: 12px 16px !important;
+  transition: all 0.3s ease !important;
+}
+
+.menu-item:hover {
+  background: rgba(124, 93, 250, 0.1) !important;
+}
+
+.menu-item .menu-icon {
+  color: #7c5dfa !important;
+  min-width: 40px !important;
+}
+
+.menu-item.active {
+  background: #7c5dfa !important;
+}
+
+.menu-item.active .menu-icon,
+.menu-item.active .MuiListItemText-primary {
+  color: white !important;
+}
+
+.menu-item .MuiListItemText-primary {
+  font-weight: 500 !important;
+  color: #1a1a2e;
+}
+
+.drawer-footer {
+  margin-top: auto;
+  padding: 16px 8px;
+}
+
+.logout-button {
+  border-radius: 12px !important;
+  color: #ff6b6b !important;
+  padding: 12px 16px !important;
+  background: rgba(255, 107, 107, 0.1) !important;
+}
+
+.logout-button:hover {
+  background: rgba(255, 107, 107, 0.2) !important;
+}
+
+.logout-button .menu-icon {
+  color: #ff6b6b !important;
+}
+
+.profile-menu {
+  margin-top: 8px;
+}
+
+.profile-menu .MuiPaper-root {
+  border-radius: 16px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important;
+  padding: 8px !important;
+  min-width: 200px !important;
+}
+
+.profile-menu .MuiMenuItem-root {
+  border-radius: 8px !important;
+  padding: 12px 16px !important;
+  margin: 4px !important;
+}
+
+.profile-menu .menu-icon {
+  margin-right: 12px !important;
+  color: #7c5dfa !important;
+}
+
+.profile-menu .logout-menu-item {
+  color: #ff6b6b !important;
+}
+
+.profile-menu .logout-menu-item .menu-icon {
+  color: #ff6b6b !important;
+}
+
+@media (max-width: 1200px) {
+  .main-content {
+    padding: 80px 20px 20px 300px;
+  }
+  
+  .main-content.drawer-closed {
+    padding-left: 20px;
+  }
+}
+
+@media (max-width: 960px) {
+  .menu-button {
+    display: block; /* Show menu button */
+  }
+
+  .dashboard-drawer .MuiDrawer-paper {
+    transform: translateX(-280px); /* Hidden by default on mobile */
+  }
+
+  .dashboard-drawer.open .MuiDrawer-paper {
+    transform: translateX(0); /* Shown when open */
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .main-content {
+    padding: 80px 16px 16px;
+    width: 100%;
+  }
+
+  .main-content.drawer-closed {
+    padding-left: 16px;
+  }
+
+  /* Add overlay when drawer is open on mobile */
+  .drawer-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1150;
+  }
+
+  .drawer-overlay.visible {
+    display: block;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-content {
+    padding: 70px 12px 12px;
+  }
+
+  .toolbar {
+    padding: 0.5rem !important;
+  }
+
+  .app-title {
+    font-size: 1.2rem !important;
+  }
+
+  .menu-button {
+    margin-right: 8px;
+  }
+
+  .notification-icon,
+  .profile-button {
+    padding: 6px !important;
+  }
+} 

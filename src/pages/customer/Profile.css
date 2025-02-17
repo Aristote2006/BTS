@@ -1,0 +1,15 @@
+/* Optional: Keep this file minimal or remove it entirely */
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #fff;
+}
+
+.paper {
+  background-color: #1e1e1e; /* Dark background for paper */
+}
+
+h4, h6 {
+  color: #fff; /* Light text color */
+} 

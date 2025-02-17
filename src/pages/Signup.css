@@ -1,0 +1,187 @@
+.signup-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+  padding: 2rem 0;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.signup-paper {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px !important;
+  padding: 2rem;
+  background-color: white;
+}
+
+.signup-box {
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.signup-title {
+  color: white;
+  text-align: center;
+  font-weight: 600 !important;
+  margin-bottom: 0.5rem !important;
+  background: linear-gradient(45deg, #fff, #7c5dfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.signup-subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  margin-bottom: 1rem !important;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.signup-form .MuiTextField-root {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.signup-form .MuiOutlinedInput-root {
+  color: white;
+}
+
+.signup-form .MuiInputLabel-root {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.signup-form .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.signup-form .MuiInputLabel-root.Mui-focused {
+  color: #7c5dfa;
+}
+
+.signup-form .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #7c5dfa;
+}
+
+.signup-form .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(124, 93, 250, 0.5);
+}
+
+.input-icon {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.terms-checkbox {
+  color: #7c5dfa !important;
+  margin-top: 1rem;
+}
+
+.terms-text {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.terms-link {
+  color: #7c5dfa;
+  text-decoration: none;
+}
+
+.terms-link:hover {
+  text-decoration: underline;
+}
+
+.signup-button {
+  background: linear-gradient(45deg, #7c5dfa, #5c3af0) !important;
+  padding: 12px !important;
+  border-radius: 10px !important;
+  text-transform: none !important;
+  font-size: 1.1rem !important;
+  margin-top: 1rem !important;
+}
+
+.signup-button:disabled {
+  background: rgba(124, 93, 250, 0.5) !important;
+}
+
+.divider {
+  margin: 2rem 0 !important;
+}
+
+.divider .MuiDivider-wrapper {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.social-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.google-button,
+.facebook-button {
+  flex: 1;
+  color: white !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  text-transform: none !important;
+  padding: 8px !important;
+}
+
+.google-button:hover,
+.facebook-button:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.login-prompt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.login-prompt Typography {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.login-link {
+  color: #7c5dfa;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.login-link:hover {
+  color: #5c3af0;
+}
+
+.signup-alert {
+  margin-bottom: 1rem !important;
+}
+
+/* Phone number specific styles */
+.signup-form .MuiTextField-root[name="phoneNumber"] input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  .signup-box {
+    padding: 2rem 1.5rem;
+  }
+
+  .social-buttons {
+    flex-direction: column;
+  }
+
+  .signup-title {
+    font-size: 2rem !important;
+  }
+} 

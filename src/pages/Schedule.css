@@ -1,0 +1,63 @@
+.schedule-page {
+  background: #1a1a2e;
+  min-height: 100vh;
+  padding: 100px 0;
+  color: white;
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 60px !important;
+  background: linear-gradient(45deg, #fff, #7c5dfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.schedule-table {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 20px !important;
+  overflow: hidden;
+}
+
+.schedule-table .MuiTableCell-head {
+  background: rgba(124, 93, 250, 0.1);
+  color: #7c5dfa !important;
+  font-weight: 600 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.schedule-table .MuiTableCell-body {
+  color: white !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.status.on-time {
+  background: rgba(46, 204, 113, 0.1);
+  color: #2ecc71;
+}
+
+.status.delayed {
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+}
+
+@media (max-width: 768px) {
+  .schedule-page {
+    padding: 60px 0;
+  }
+  
+  .page-title {
+    font-size: 2.5rem !important;
+  }
+  
+  .schedule-table {
+    margin: 0 20px;
+  }
+} 
