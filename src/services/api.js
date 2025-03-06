@@ -46,42 +46,78 @@ api.interceptors.response.use(
 
 export const authAPI = {
   register: async (userData) => {
-    const response = await api.post('/auth/register', userData);
-    return response.data;
+    try {
+      const response = await api.post('/auth/register', userData);
+      return {
+        success: true,
+        data: response.data
+      };
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Registration failed');
+    }
   },
   
   login: async (credentials) => {
-    const response = await api.post('/auth/login', credentials);
-    return response.data;
+    try {
+      const response = await api.post('/auth/login', credentials);
+      return {
+        success: true,
+        data: response.data
+      };
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Login failed');
+    }
   },
   
   sendResetCode: async (data) => {
-    const response = await api.post('/auth/forgot-password', data);
-    return response.data;
+    try {
+      const response = await api.post('/auth/forgot-password', data);
+      return {
+        success: true,
+        data: response.data
+      };
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to send reset code');
+    }
   },
   
   resetPassword: async (data) => {
-    const response = await api.post('/auth/reset-password', data);
-    return response.data;
+    try {
+      const response = await api.post('/auth/reset-password', data);
+      return {
+        success: true,
+        data: response.data
+      };
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to reset password');
+    }
   },
 };
 
-export default api;
+export const bookingAPI = {
+  createBooking: async (bookingData) => {
+    try {
+      const response = await api.post('/bookings', bookingData);
+      return {
+        success: true,
+        data: response.data
+      };
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Booking failed');
+    }
+  },
 
-export const createBooking = async (bookingData) => {
-  try {
-    const response = await api.post('/bookings', bookingData);
-    return response.data;
-  } catch (error) {
-    throw error.response.data;
+  getBookings: async () => {
+    try {
+      const response = await api.get('/bookings');
+      return {
+        success: true,
+        data: response.data
+      };
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Failed to fetch bookings');
+    }
   }
 };
 
-export const getBookings = async () => {
-  try {
-    const response = await api.get('/api/bookings');
-    return response.data;
-  } catch (error) {
-    throw error.response.data;
-  }
-}; 
+export default api;

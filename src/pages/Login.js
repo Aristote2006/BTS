@@ -61,9 +61,13 @@ const Login = () => {
         
         login(userData);
         
-        switch (userData.role) {
+        // Redirect based on user role
+        switch (userData.role?.toLowerCase()) {
           case 'admin':
             navigate('/admin/dashboard');
+            break;
+          case 'conveyor':
+            navigate('/conveyor/dashboard');
             break;
           case 'driver':
             navigate('/driver/dashboard');
@@ -71,8 +75,11 @@ const Login = () => {
           case 'superadmin':
             navigate('/superadmin/dashboard');
             break;
-          default:
+          case 'customer':
             navigate('/customer/dashboard');
+            break;
+          default:
+            navigate('/superadmin/dashboard'); // Default to customer dashboard
         }
       }
     } catch (err) {
@@ -89,6 +96,10 @@ const Login = () => {
 
   return (
     <div className="login-page">
+      <div className="slideshow-container">
+        <div className="slide"></div>
+        <div className="slide"></div>
+      </div>
       <Container maxWidth="xs">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

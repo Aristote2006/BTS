@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(26, 26, 26, 0.95) !important;
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%) !important;
   color: rgb(54, 54, 54);
   padding: 0.5rem 0;
   position: sticky;
@@ -15,7 +15,7 @@
 }
 
 .navbar.scrolled {
-  background: rgba(26, 26, 26, 0.98) !important;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.98) 0%, rgba(45, 45, 68, 0.98) 100%) !important;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2) !important;
 }
 
@@ -300,7 +300,7 @@
 }
 
 .logo-accent {
-  background: linear-gradient(45deg, #3d3d3d, #666666);
+  background: linear-gradient(45deg, #7c5dfa, #5c3af0);
   background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 700;
@@ -311,7 +311,7 @@
 }
 
 .auth-button {
-  background: linear-gradient(45deg, #333333, #1a1a1a) !important;
+  background: linear-gradient(45deg, #7c5dfa, #5c3af0) !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
   color: white !important;
@@ -321,8 +321,8 @@
 }
 
 .auth-button:hover {
-  background: linear-gradient(45deg, #404040, #262626) !important;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+  background: linear-gradient(45deg, #5c3af0, #7c5dfa) !important;
+  box-shadow: 0 6px 20px rgba(124, 93, 250, 0.3) !important;
   transform: translateY(-2px);
 }
 

@@ -1,45 +1,42 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    // Initialize user state from localStorage
     const savedUser = localStorage.getItem('user');
     return savedUser ? JSON.parse(savedUser) : null;
   });
 
   const login = (userData) => {
-    // Save user data to state and localStorage
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
   };
 
-  const logout = () => {
-    // Clear user data from state and localStorage
+  const logout = async () => {
+    // Clear user state
     setUser(null);
+    
+    // Clear all storage
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // Force clean auth state
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    
+    return Promise.resolve();
   };
 
-  // Optional: Verify token on mount and when user changes
-  useEffect(() => {
-    const verifyToken = async () => {
-      const token = user?.token;
-      if (token) {
-        try {
-          // You can add an API call here to verify the token
-          // If token is invalid, call logout()
-        } catch (error) {
-          logout();
-        }
-      }
-    };
-
-    verifyToken();
-  }, [user]);
+  const value = {
+    user,
+    login,
+    logout,
+    isAuthenticated: !!user
+  };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

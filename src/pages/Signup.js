@@ -54,64 +54,106 @@ const Signup = () => {
     // Clear error when user starts typing
     if (error) setError('');
   };
-
   const validatePhoneNumber = (phone) => {
-    const phoneRegex = /^\+?[1-9]\d{1,14}$/;
+    // Rwandan phone number format: +250xxxxxxxxx or 07xxxxxxxx
+    const phoneRegex = /^(\+250|07)\d{8}$/;
     return phoneRegex.test(phone);
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     
-    // Validation checks
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
-    }
-    if (!agreeToTerms) {
-      setError('Please agree to the Terms and Conditions');
-      return;
-    }
-    if (!validatePhoneNumber(formData.phoneNumber)) {
-      setError('Please enter a valid phone number');
-      return;
-    }
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters long');
-      return;
-    }
-
-    setIsLoading(true);
     try {
+      // Validation checks
+      if (!formData.name.trim()) {
+        setError('Name is required');
+        return;
+      }
+      if (!formData.email.trim()) {
+        setError('Email is required');
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        setError('Please enter a valid email address');
+        return;
+      }
+      if (formData.password !== formData.confirmPassword) {
+        setError('Passwords do not match');
+        return;
+      }
+      if (!agreeToTerms) {
+        setError('Please agree to the Terms and Conditions');
+        return;
+      }
+      if (!validatePhoneNumber(formData.phoneNumber)) {
+        setError('Please enter a valid phone number');
+        return;
+      }
+      if (formData.password.length < 6) {
+        setError('Password must be at least 6 characters long');
+        return;
+      }
+
+      setIsLoading(true);
+      
+      // Format phone number if needed
+      const formattedPhone = formData.phoneNumber.startsWith('+') 
+        ? formData.phoneNumber 
+        : formData.phoneNumber.startsWith('07')
+          ? `+250${formData.phoneNumber.slice(2)}`
+          : `+250${formData.phoneNumber}`;
+
       // Prepare registration data
       const registrationData = {
-        name: formData.name,
-        email: formData.email,
-        phoneNumber: formData.phoneNumber,
-        password: formData.password
+        name: formData.name.trim(),
+        email: formData.email.toLowerCase().trim(),
+        phoneNumber: formattedPhone,
+        password: formData.password,
+        role: 'customer' // Set default role as customer
       };
 
-      // Call registration API
       const response = await authAPI.register(registrationData);
       
-      // Handle successful registration
       if (response.success) {
-        // Store the token and user data
+        // Show success message
+        setError('');
+        const successMessage = 'Account created successfully! Redirecting...';
+        setError(successMessage);
+        
+        // Store user data in context and localStorage
         login(response.data);
         
-        // Show success message or redirect
-        navigate('/dashboard');
-      } else {
-        setError(response.message || 'Registration failed');
+        // Clear form
+        setFormData({
+          name: '',
+          email: '',
+          phoneNumber: '',
+          password: '',
+          confirmPassword: ''
+        });
+        setAgreeToTerms(false);
+        
+        // Add a slight delay before navigation for better UX
+        setTimeout(() => {
+          // Navigate to appropriate dashboard based on role
+          const userRole = response.data.role?.toLowerCase();
+          const dashboardPath = userRole === 'admin' ? '/admin/dashboard' 
+            : userRole === 'driver' ? '/driver/dashboard'
+            : userRole === 'conveyor' ? '/conveyor/dashboard'
+            : userRole === 'superadmin' ? '/superadmin/dashboard'
+            : '/customer/dashboard';
+            
+          navigate(dashboardPath);
+        }, 2000); // 2 second delay
       }
     } catch (err) {
-      setError(err.message || 'Registration failed');
+      const errorMessage = err.message || 'Registration failed. Please try again.';
+      setError(errorMessage);
+      console.error('Registration error:', err);
     } finally {
       setIsLoading(false);
     }
   };
-
   const handleSocialSignup = (provider) => {
     // Add social signup logic here
     console.log(`${provider} signup attempted`);
@@ -119,6 +161,10 @@ const Signup = () => {
 
   return (
     <div className="signup-page">
+      <div className="slideshow-container">
+        <div className="slide"></div>
+        <div className="slide"></div>
+      </div>
       <Container maxWidth="xs">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -181,7 +227,7 @@ const Signup = () => {
                   value={formData.phoneNumber}
                   onChange={handleChange}
                   required
-                  placeholder="+250700000000"
+                  placeholder="+250780000000"
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
@@ -266,6 +312,15 @@ const Signup = () => {
                   variant="contained"
                   className="signup-button"
                   disabled={isLoading || !agreeToTerms}
+                  sx={{
+                    mt: 2,
+                    mb: 2,
+                    height: 48,
+                    backgroundColor: '#1a237e',
+                    '&:hover': {
+                      backgroundColor: '#0d47a1',
+                    },
+                  }}
                 >
                   {isLoading ? (
                     <CircularProgress size={24} color="inherit" />

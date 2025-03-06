@@ -1,506 +1,624 @@
 import React, { useState, useEffect } from 'react';
 import {
+  Box,
   Container,
   Grid,
+  Paper,
+  Typography,
+  IconButton,
   Card,
   CardContent,
-  Typography,
-  Box,
-  IconButton,
-  Button,
-  Paper,
-  Divider,
-  CircularProgress,
+  useTheme,
+  AppBar,
+  Toolbar,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListItemButton,
   Avatar,
-  Menu,
-  MenuItem,
-  Tooltip,
+  Button,
+  useMediaQuery,
+  Fade,
+  Divider,
 } from '@mui/material';
 import {
-  DirectionsBus,
-  Receipt,
-  Schedule,
-  LocationOn,
-  ArrowForward,
-  TrendingUp,
-  Person,
-  History,
-  Notifications,
-  Settings,
-  ExitToApp,
-  AccountCircle,
-  Help,
-  LocalOffer,
-  DateRange,
+  Menu as MenuIcon,
+  ChevronLeft as ChevronLeftIcon,
   DarkMode,
   LightMode,
-  Menu as MenuIcon,
+  DirectionsBus,
+  Receipt,
+  History,
+  LocationOn,
+  Support,
+  ArrowBack,
+  Dashboard as DashboardIcon,
+  AccessTime,
+  EventSeat,
+  Logout,
 } from '@mui/icons-material';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext'; // Add auth context import
+import { useTheme as useCustomTheme } from '../../contexts/ThemeContext';
 import { motion } from 'framer-motion';
-import { useTheme } from '../../contexts/ThemeContext';
-import Sidebar from '../../components/Sidebar';
-import './Dashboard.css';
+
+// Slideshow images
+const busImages = [
+  'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?auto=format&fit=crop&q=80',
+];
 
 const CustomerDashboard = () => {
-  const { user, logout } = useAuth();
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(true);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [notificationAnchorEl, setNotificationAnchorEl] = useState(null);
-  const { darkMode, toggleDarkMode } = useTheme();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { logout } = useAuth(); // Get logout function from auth context
+  const { darkMode, toggleDarkMode } = useCustomTheme();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const drawerWidth = 240;
 
-  const handleSidebarToggle = () => {
-    setSidebarOpen(!sidebarOpen);
+  const handleLogout = async () => {
+    try {
+      setDrawerOpen(false);
+      
+      // First clear all storage
+      localStorage.clear();
+      sessionStorage.clear();
+      
+      // Call logout function
+      await logout();
+      
+      // Force a hard redirect to home page
+      window.location.href = '/';
+      
+    } catch (error) {
+      console.error('Logout failed:', error);
+      alert('Failed to logout. Please try again.');
+    }
   };
 
-  const handleSidebarClose = () => {
-    setSidebarOpen(false);
+  const handleDrawerToggle = () => {
+    setDrawerOpen(!drawerOpen);
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
+    if (isMobile) {
+      setDrawerOpen(false);
+    }
   };
 
   const menuItems = [
-    { text: 'Dashboard', icon: <DirectionsBus />, path: '/dashboard' },
+    { text: 'Dashboard', icon: <DashboardIcon />, path: '/customer/dashboard' },
     { text: 'My Bookings', icon: <Receipt />, path: '/bookings' },
-    { text: 'Schedule', icon: <Schedule />, path: '/schedule' },
-    { text: 'Saved Locations', icon: <LocationOn />, path: '/locations' },
-    { text: 'History', icon: <History />, path: '/history' },
-    { text: 'Settings', icon: <Settings />, path: '/settings' },
+    { text: 'Book a Trip', icon: <DirectionsBus />, path: '/booking' },
+    { text: 'Track Location', icon: <LocationOn />, path: '/track' },
+    { text: 'Support', icon: <Support />, path: '/support' },
+    { 
+      text: 'Logout', 
+      icon: <Logout />, 
+      onClick: handleLogout,
+      divider: true,
+      sx: { 
+        color: 'error.main',
+        '&:hover': {
+          bgcolor: theme.palette.mode === 'dark' ? 'rgba(255,0,0,0.1)' : 'rgba(255,0,0,0.05)',
+        },
+      }
+    },
   ];
 
-  const [stats, setStats] = useState({
+  // Slideshow effect
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        prevIndex === busImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const stats = {
     totalBookings: 15,
     upcomingTrips: 2,
     completedTrips: 13,
     savedLocations: 5,
-  });
-
-  const [recentBookings] = useState([
-    {
-      id: 1,
-      from: "Nairobi",
-      to: "Mombasa",
-      date: "2024-01-15",
-      status: "Upcoming",
-      price: "KES 1,200"
-    },
-    {
-      id: 2,
-      from: "Mombasa",
-      to: "Nairobi",
-      date: "2024-01-10",
-      status: "Completed",
-      price: "KES 1,200"
-    },
-  ]);
-
-  const [specialOffers] = useState([
-    {
-      title: "Early Bird Discount",
-      description: "20% off on morning buses",
-      code: "EARLY20"
-    },
-    {
-      title: "Weekend Special",
-      description: "15% off on weekend trips",
-      code: "WEEKEND15"
-    }
-  ]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
   };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleNotificationOpen = (event) => {
-    setNotificationAnchorEl(event.currentTarget);
-  };
-
-  const handleNotificationClose = () => {
-    setNotificationAnchorEl(null);
-  };
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
-
-  const StatCard = ({ title, value, icon, color, onClick }) => (
-    <motion.div
-      whileHover={{ y: -5, transition: { duration: 0.2 } }}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-    >
-      <Card 
-        className="stat-card" 
-        onClick={onClick}
-        sx={{ 
-          cursor: onClick ? 'pointer' : 'default',
-          background: `linear-gradient(135deg, ${color}15, ${color}05)`,
-          borderLeft: `4px solid ${color}`,
-        }}
-      >
-        <CardContent>
-          <Box display="flex" alignItems="center" justifyContent="space-between">
-            <Box>
-              <Typography color="textSecondary" gutterBottom>
-                {title}
-              </Typography>
-              <Typography variant="h4" component="div" sx={{ color: color }}>
-                {value}
-              </Typography>
-            </Box>
-            <Box sx={{ color: color }}>
-              {icon}
-            </Box>
-          </Box>
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
-
-  const QuickAction = ({ title, icon, color, onClick }) => (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      <Button
-        variant="contained"
-        startIcon={icon}
-        onClick={onClick}
-        sx={{
-          backgroundColor: color,
-          '&:hover': {
-            backgroundColor: color + 'dd',
-          },
-          width: '100%',
-          py: 2,
-          color: 'white',
-        }}
-      >
-        {title}
-      </Button>
-    </motion.div>
-  );
-
-  if (isLoading) {
-    return (
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        minHeight="100vh"
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
 
   return (
-    <Box className={darkMode ? 'dark-mode' : ''}>
-      <Container className="dashboard-container">
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleSidebarToggle}
-          className="menu-button"
-        >
-          <MenuIcon />
-        </IconButton>
+    <Box sx={{ 
+      display: 'flex', 
+      minHeight: '100vh', 
+      width: '100vw',
+      bgcolor: darkMode ? '#121212' : 'background.default',
+      overflow: 'hidden'
+    }}>
+      {/* Top AppBar with menu */}
+      <AppBar 
+        position="fixed" 
+        sx={{ 
+          zIndex: theme.zIndex.drawer + 1,
+          bgcolor: darkMode ? '#1a1a1a' : theme.palette.primary.main,
+          boxShadow: darkMode ? '0 4px 20px rgba(0,0,0,0.4)' : '0 4px 20px rgba(0,0,0,0.1)',
+        }}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            edge="start"
+            onClick={() => navigate(-1)}
+            sx={{ 
+              mr: 1,
+              '&:hover': {
+                bgcolor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+              }
+            }}
+          >
+            <ArrowBack />
+          </IconButton>
+          <IconButton
+            color="inherit"
+            onClick={() => setDrawerOpen(!drawerOpen)}
+            sx={{ 
+              mr: 2,
+              '&:hover': {
+                bgcolor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+              }
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Rwanda Bus Booking
+          </Typography>
+          <IconButton 
+            color="inherit" 
+            onClick={toggleDarkMode}
+            sx={{ 
+              '&:hover': {
+                bgcolor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+              }
+            }}
+          >
+            {darkMode ? <LightMode /> : <DarkMode />}
+          </IconButton>
+        </Toolbar>
+      </AppBar>
 
-        <Sidebar
-          open={sidebarOpen}
-          onClose={handleSidebarClose}
-          onToggle={handleSidebarToggle}
-          onLogout={handleLogout}
-        />
+      {/* Menu Drawer */}
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        sx={{
+          '& .MuiDrawer-paper': {
+            width: 240,
+            bgcolor: darkMode ? '#1a1a1a' : 'background.paper',
+          },
+        }}
+      >
+        <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+          <IconButton onClick={() => setDrawerOpen(false)}>
+            <ArrowBack />
+          </IconButton>
+          <Typography variant="h6" sx={{ flexGrow: 1, color: darkMode ? 'white' : 'text.primary' }}>
+            Menu
+          </Typography>
+        </Box>
+        <Divider />
+        <List>
+          {menuItems.map((item) => (
+            <Box key={item.text}>
+              {item.divider && <Divider sx={{ my: 1 }} />}
+              <ListItem disablePadding>
+                <ListItemButton
+                  onClick={() => {
+                    if (item.onClick) {
+                      item.onClick();
+                    } else {
+                      navigate(item.path);
+                    }
+                    setDrawerOpen(false);
+                  }}
+                  sx={item.sx}
+                >
+                  <ListItemIcon sx={item.sx}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText 
+                    primary={item.text}
+                    primaryTypographyProps={{
+                      sx: {
+                        color: item.sx?.color,
+                      }
+                    }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            </Box>
+          ))}
+        </List>
+      </Drawer>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: { xs: 1, sm: 2, md: 3 },
+          mt: 8,
+          bgcolor: darkMode ? '#121212' : 'background.default',
+          color: darkMode ? 'white' : 'text.primary',
+          overflowX: 'hidden',
+        }}
+      >
+        {/* Welcome Section with Slideshow */}
+        <Paper
+          elevation={darkMode ? 8 : 2}
+          sx={{
+            position: 'relative',
+            width: '100%',
+            borderRadius: { xs: 2, sm: 3 },
+            overflow: 'hidden',
+            aspectRatio: { xs: '16/6', sm: '21/6' },
+            mb: 3,
+            bgcolor: darkMode ? '#1a1a1a' : 'background.paper',
+            boxShadow: darkMode ? '0 8px 32px rgba(0,0,0,0.4)' : '0 4px 20px rgba(0,0,0,0.1)',
+          }}
         >
-          {/* Welcome Section */}
-          <Box className="welcome-section">
-            <Typography variant="h4" className="welcome-text">
-              Welcome back, {user?.name}! 👋
+          <Fade in={true} timeout={1000}>
+            <Box
+              component="img"
+              src={busImages[currentImageIndex]}
+              alt="Bus"
+              sx={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center',
+                filter: 'brightness(0.4)',
+                transition: 'transform 0.3s ease-in-out',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                },
+              }}
+            />
+          </Fade>
+          <Box
+            sx={{
+              position: 'relative',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              color: 'white',
+              textAlign: 'center',
+              p: { xs: 1.5, sm: 2 },
+              background: 'linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.4))',
+            }}
+          >
+            <Typography 
+              variant="h3" 
+              component="h1" 
+              gutterBottom
+              sx={{
+                fontSize: { xs: '1.2rem', sm: '1.8rem', md: '2.2rem' },
+                fontWeight: 600,
+                textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                mb: { xs: 0.5, sm: 1 },
+              }}
+            >
+              Welcome back, 
             </Typography>
-            <Typography variant="subtitle1">
-              Manage your bookings and track your journeys with ease
+            <Typography 
+              variant="h6"
+              sx={{
+                fontSize: { xs: '0.8rem', sm: '1rem', md: '1.1rem' },
+                textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                maxWidth: '800px',
+                opacity: 0.9,
+              }}
+            >
+              Your trusted partner in comfortable and safe travel
             </Typography>
           </Box>
+        </Paper>
 
-          {/* Dashboard Cards */}
-          <Grid container spacing={3}>
-            {/* Book a Trip Card */}
-            <Grid item xs={12} sm={6} md={3}>
-              <motion.div whileHover={{ y: -5 }} whileTap={{ scale: 0.98 }}>
-                <Card className="dashboard-card" onClick={() => navigate('/customer/booking')}>
-                  <CardContent>
-                    <Box className="card-icon book-icon">
-                      <DirectionsBus fontSize="inherit" />
-                    </Box>
-                    <Typography variant="h6" className="card-title">
-                      Book a Trip
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      Find and book your next journey
-                    </Typography>
-                    <Typography className="stats-number">
-                      24/7
-                    </Typography>
-                    <Button 
-                      variant="contained" 
-                      className="action-button"
-                      color="primary"
-                    >
-                      Book Now
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </Grid>
-
-            {/* Active Bookings Card */}
-            <Grid item xs={12} sm={6} md={3}>
-              <motion.div whileHover={{ y: -5 }} whileTap={{ scale: 0.98 }}>
-                <Card className="dashboard-card">
-                  <CardContent>
-                    <Box className="card-icon active-icon">
-                      <LocationOn fontSize="inherit" />
-                    </Box>
-                    <Typography variant="h6" className="card-title">
-                      Active Bookings
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      Track your current bookings
-                    </Typography>
-                    <Typography className="stats-number">
-                      2
-                    </Typography>
-                    <Button 
-                      variant="contained" 
-                      className="action-button active-button"
-                    >
-                      View Active
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </Grid>
-
-            {/* Booking History Card */}
-            <Grid item xs={12} sm={6} md={3}>
-              <motion.div whileHover={{ y: -5 }} whileTap={{ scale: 0.98 }}>
-                <Card className="dashboard-card">
-                  <CardContent>
-                    <Box className="card-icon history-icon">
-                      <History fontSize="inherit" />
-                    </Box>
-                    <Typography variant="h6" className="card-title">
-                      Booking History
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      View your past journeys
-                    </Typography>
-                    <Typography className="stats-number">
-                      12
-                    </Typography>
-                    <Button 
-                      variant="contained" 
-                      className="action-button history-button"
-                    >
-                      View History
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </Grid>
-
-            {/* Profile Card */}
-            <Grid item xs={12} sm={6} md={3}>
-              <motion.div whileHover={{ y: -5 }} whileTap={{ scale: 0.98 }}>
-                <Card className="dashboard-card">
-                  <CardContent>
-                    <Box className="card-icon profile-icon">
-                      <Person fontSize="inherit" />
-                    </Box>
-                    <Typography variant="h6" className="card-title">
-                      My Profile
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      Manage your account
-                    </Typography>
-                    <Typography className="stats-number">
-                      Pro
-                    </Typography>
-                    <Button 
-                      variant="contained" 
-                      className="action-button profile-button"
-                      component={Link}
-                      to="/customer/profile"
-                    >
-                      View Profile
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </Grid>
-          </Grid>
-
-          {/* Recent Bookings Section */}
-          <Paper className="section-paper recent-bookings">
-            <Box className="section-header">
-              <Typography variant="h6">Recent Bookings</Typography>
-              <Button 
-                endIcon={<ArrowForward />}
-                onClick={() => navigate('/customer/bookings')}
+        {/* Stats Grid */}
+        <Grid container spacing={{ xs: 1, sm: 2, md: 3 }} sx={{ mb: 3 }}>
+          {[
+            { title: 'Total Bookings', value: stats.totalBookings, icon: <DirectionsBus /> },
+            { title: 'Upcoming Trips', value: stats.upcomingTrips, icon: <Receipt /> },
+            { title: 'Completed Trips', value: stats.completedTrips, icon: <History /> },
+            { title: 'Saved Locations', value: stats.savedLocations, icon: <LocationOn /> },
+          ].map((stat, index) => (
+            <Grid item xs={6} sm={6} md={3} key={index}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
               >
-                View All
-              </Button>
-            </Box>
-            <Divider />
-            <Box className="bookings-list">
-              {recentBookings.map((booking) => (
-                <Card key={booking.id} className="booking-item">
+                <Card
+                  sx={{
+                    height: '100%',
+                    bgcolor: darkMode ? '#1a1a1a' : 'background.paper',
+                    color: darkMode ? 'white' : 'text.primary',
+                    boxShadow: darkMode ? '0 4px 20px rgba(0,0,0,0.4)' : '0 4px 20px rgba(0,0,0,0.1)',
+                    '&:hover': {
+                      transform: 'translateY(-5px)',
+                      transition: 'transform 0.3s ease-in-out',
+                    },
+                  }}
+                >
                   <CardContent>
-                    <Grid container alignItems="center" justifyContent="space-between">
-                      <Grid item xs={12} sm={3}>
-                        <Typography variant="subtitle2" color="textSecondary">
-                          From - To
-                        </Typography>
-                        <Typography variant="body1">
-                          {booking.from} - {booking.to}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={3}>
-                        <Typography variant="subtitle2" color="textSecondary">
-                          Date
-                        </Typography>
-                        <Typography variant="body1">
-                          {booking.date}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={2}>
-                        <Typography variant="subtitle2" color="textSecondary">
-                          Price
-                        </Typography>
-                        <Typography variant="body1">
-                          {booking.price}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={12} sm={2}>
-                        <Button 
-                          variant="contained" 
-                          color={booking.status === 'Upcoming' ? 'primary' : 'secondary'}
-                        >
-                          {booking.status}
-                        </Button>
-                      </Grid>
-                    </Grid>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                      <Avatar
+                        sx={{
+                          bgcolor: darkMode ? 'primary.dark' : 'primary.light',
+                          color: darkMode ? 'white' : 'primary.main',
+                        }}
+                      >
+                        {stat.icon}
+                      </Avatar>
+                    </Box>
+                    <Typography 
+                      variant="h4" 
+                      component="div"
+                      sx={{
+                        fontSize: { xs: '1.5rem', sm: '2rem', md: '2.5rem' },
+                        fontWeight: 600,
+                      }}
+                    >
+                      {stat.value}
+                    </Typography>
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        color: darkMode ? 'grey.400' : 'text.secondary',
+                        fontSize: { xs: '0.8rem', sm: '0.9rem' },
+                      }}
+                    >
+                      {stat.title}
+                    </Typography>
                   </CardContent>
                 </Card>
-              ))}
-            </Box>
-          </Paper>
-
-          {/* Special Offers Section */}
-          <Paper className="section-paper special-offers">
-            <Box className="section-header">
-              <Typography variant="h6">Special Offers</Typography>
-              <LocalOffer className="section-icon" />
-            </Box>
-            <Divider />
-            <Grid container spacing={2} className="offers-grid">
-              {specialOffers.map((offer, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
-                  <Card className="offer-card">
-                    <CardContent>
-                      <Typography variant="h6" className="offer-title">
-                        {offer.title}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {offer.description}
-                      </Typography>
-                      <Box className="offer-code">
-                        <Typography variant="h5">{offer.code}</Typography>
-                        <Button variant="outlined" size="small">
-                          Copy Code
-                        </Button>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
+              </motion.div>
             </Grid>
-          </Paper>
+          ))}
+        </Grid>
 
-          {/* Quick Links Section */}
-          <Paper className="section-paper quick-links">
-            <Typography variant="h6" className="section-title">
-              Quick Links
+        {/* Available Buses Today */}
+        <Paper
+          elevation={darkMode ? 8 : 2}
+          sx={{
+            p: { xs: 2, sm: 3 },
+            mb: 3,
+            bgcolor: darkMode ? '#1a1a1a' : 'background.paper',
+            boxShadow: darkMode ? '0 8px 32px rgba(0,0,0,0.4)' : '0 4px 20px rgba(0,0,0,0.1)',
+          }}
+        >
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+            <Typography
+              variant="h5"
+              sx={{
+                fontSize: { xs: '1.3rem', sm: '1.5rem', md: '1.7rem' },
+                fontWeight: 600,
+                color: darkMode ? 'primary.light' : 'primary.main',
+              }}
+            >
+              Available Buses Today
             </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={6} sm={3}>
-                <Button 
-                  fullWidth 
-                  variant="outlined" 
-                  startIcon={<DateRange />}
-                  className="quick-link-button"
-                  onClick={() => navigate('/customer/schedule')}
+            <Button
+              variant="outlined"
+              onClick={() => navigate('/booking')}
+              startIcon={<DirectionsBus />}
+              sx={{
+                borderColor: darkMode ? 'primary.light' : 'primary.main',
+                color: darkMode ? 'primary.light' : 'primary.main',
+                '&:hover': {
+                  borderColor: darkMode ? 'primary.main' : 'primary.dark',
+                  bgcolor: darkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+                },
+              }}
+            >
+              View All
+            </Button>
+          </Box>
+          
+          <Grid container spacing={2}>
+            {[
+              { id: 1, name: 'Bus 1', type: 'Luxury', availableSeats: 20, departureTime: '08:00', arrivalTime: '10:00', price: 500 },
+              { id: 2, name: 'Bus 2', type: 'Standard', availableSeats: 30, departureTime: '10:00', arrivalTime: '12:00', price: 300 },
+              { id: 3, name: 'Bus 3', type: 'Economy', availableSeats: 40, departureTime: '12:00', arrivalTime: '14:00', price: 200 },
+            ].map((bus) => (
+              <Grid item xs={12} sm={6} md={4} key={bus.id}>
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  Bus Schedule
-                </Button>
+                  <Paper
+                    sx={{
+                      p: 2,
+                      height: '100%',
+                      bgcolor: darkMode ? 'rgba(255,255,255,0.05)' : 'background.paper',
+                      '&:hover': {
+                        bgcolor: darkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
+                      },
+                      border: '1px solid',
+                      borderColor: darkMode ? 'rgba(255,255,255,0.1)' : 'divider',
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                      <DirectionsBus 
+                        color="primary"
+                        sx={{ fontSize: '1.8rem' }}
+                      />
+                      <Box>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontSize: { xs: '1.1rem', sm: '1.2rem' },
+                            fontWeight: 600,
+                            color: darkMode ? 'white' : 'text.primary',
+                          }}
+                        >
+                          {bus.name}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontSize: '0.9rem',
+                            color: darkMode ? 'grey.400' : 'text.secondary',
+                          }}
+                        >
+                          {bus.type}
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Box sx={{ mb: 2 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                        <AccessTime 
+                          sx={{ 
+                            fontSize: '1.2rem',
+                            color: darkMode ? 'grey.400' : 'text.secondary',
+                          }}
+                        />
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontSize: '0.9rem',
+                            color: darkMode ? 'grey.400' : 'text.secondary',
+                          }}
+                        >
+                          {bus.departureTime} - {bus.arrivalTime}
+                        </Typography>
+                      </Box>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <EventSeat 
+                          sx={{ 
+                            fontSize: '1.2rem',
+                            color: darkMode ? 'grey.400' : 'text.secondary',
+                          }}
+                        />
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontSize: '0.9rem',
+                            color: darkMode ? 'grey.400' : 'text.secondary',
+                          }}
+                        >
+                          {bus.availableSeats} seats available
+                        </Typography>
+                      </Box>
+                    </Box>
+                    <Box sx={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      alignItems: 'flex-end',
+                      mt: 'auto',
+                    }}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          fontSize: '1.1rem',
+                          fontWeight: 600,
+                          color: darkMode ? 'primary.light' : 'primary.main',
+                        }}
+                      >
+                        KES {bus.price}
+                      </Typography>
+                      <Button
+                        variant="contained"
+                        size="small"
+                        onClick={() => navigate('/booking')}
+                        sx={{
+                          bgcolor: darkMode ? 'primary.dark' : 'primary.main',
+                          color: 'white',
+                          '&:hover': {
+                            bgcolor: darkMode ? 'primary.main' : 'primary.dark',
+                          },
+                        }}
+                      >
+                        Book Now
+                      </Button>
+                    </Box>
+                  </Paper>
+                </motion.div>
               </Grid>
-              <Grid item xs={6} sm={3}>
-                <Button 
-                  fullWidth 
-                  variant="outlined" 
-                  startIcon={<Receipt />}
-                  className="quick-link-button"
-                  onClick={() => navigate('/customer/tickets')}
+            ))}
+          </Grid>
+        </Paper>
+
+        {/* Menu Cards */}
+        <Grid container spacing={{ xs: 1, sm: 2, md: 3 }}>
+          {menuItems.map((item, index) => (
+            <Grid item xs={6} sm={4} md={3} key={index}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Card
+                  onClick={() => handleNavigation(item.path)}
+                  sx={{
+                    cursor: 'pointer',
+                    height: '100%',
+                    bgcolor: darkMode ? '#1a1a1a' : 'background.paper',
+                    color: darkMode ? 'white' : 'text.primary',
+                    boxShadow: darkMode ? '0 4px 20px rgba(0,0,0,0.4)' : '0 4px 20px rgba(0,0,0,0.1)',
+                    '&:hover': {
+                      transform: 'translateY(-5px)',
+                      transition: 'transform 0.3s ease-in-out',
+                      bgcolor: darkMode ? '#252525' : 'grey.100',
+                    },
+                  }}
                 >
-                  My Tickets
-                </Button>
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <Button 
-                  fullWidth 
-                  variant="outlined" 
-                  startIcon={<Help />}
-                  className="quick-link-button"
-                  onClick={() => navigate('/customer/support')}
-                >
-                  Support
-                </Button>
-              </Grid>
-              <Grid item xs={6} sm={3}>
-                <Button 
-                  fullWidth 
-                  variant="outlined" 
-                  startIcon={<Settings />}
-                  className="quick-link-button"
-                  onClick={() => navigate('/customer/settings')}
-                >
-                  Settings
-                </Button>
-              </Grid>
+                  <CardContent>
+                    <Box 
+                      sx={{ 
+                        display: 'flex', 
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        textAlign: 'center',
+                        gap: 1,
+                      }}
+                    >
+                      <Avatar
+                        sx={{
+                          bgcolor: darkMode ? 'primary.dark' : 'primary.light',
+                          color: darkMode ? 'white' : 'primary.main',
+                          width: { xs: 40, sm: 50 },
+                          height: { xs: 40, sm: 50 },
+                        }}
+                      >
+                        {item.icon}
+                      </Avatar>
+                      <Typography 
+                        variant="h6"
+                        sx={{
+                          fontSize: { xs: '0.9rem', sm: '1.1rem', md: '1.25rem' },
+                          fontWeight: 500,
+                        }}
+                      >
+                        {item.text}
+                      </Typography>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </motion.div>
             </Grid>
-          </Paper>
-        </motion.div>
-      </Container>
+          ))}
+        </Grid>
+      </Box>
     </Box>
   );
 };
 
-export default CustomerDashboard; 
+export default CustomerDashboard;

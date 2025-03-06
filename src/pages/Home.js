@@ -550,7 +550,7 @@ const Home = () => {
           </Grid>
           <Box className="footer-bottom">
             <Typography variant="body2" align="center">
-              © 2024 Rwanda Bus Booking. All rights reserved.
+              © 2025 Rwanda Bus Booking. All rights reserved.
             </Typography>
           </Box>
         </Container>
